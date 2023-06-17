@@ -58,8 +58,33 @@ def main():
     
     # User input
     st.title("Deteksi Penyakit Hipertensi")
+    age = st.number_input("Usia:")
+    sex = st.selectbox("Jenis Kelamin:", ["Laki-laki", "Perempuan"])
+    cp = st.selectbox("Jenis Nyeri Dada:", ["Tipe 0", "Tipe 1", "Tipe 2", "Tipe 3"])
     # ...
-    # Tambahkan input pengguna dan kode prediksi seperti sebelumnya
+    # Tambahkan input pengguna untuk fitur-fitur lainnya
     
-    if __name__ == '__main__':
-        main()
+    input_data = pd.DataFrame({
+        'age': [age],
+        'sex': [sex],
+        'cp': [cp],
+        # ...
+        # Tambahkan fitur-fitur lainnya sesuai dengan input pengguna
+    })
+    
+    # Preprocess input data
+    input_data['sex'] = le.transform(input_data['sex'])
+    input_data['cp'] = le.transform(input_data['cp'])
+    # ...
+    
+    # Perform prediction
+    prediction = predict(model, input_data)
+    
+    # Display the prediction result
+    if prediction[0] == 0:
+        st.write("Hasil: Tidak Terdiagnosis Hipertensi")
+    else:
+        st.write("Hasil: Terdiagnosis Hipertensi")
+
+if __name__ == '__main__':
+    main()
